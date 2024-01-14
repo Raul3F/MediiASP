@@ -1,0 +1,90 @@
+﻿@page
+@model ResendEmailConfirmationModel
+@{
+    ViewData["Title"] = "Resend email confirmation";
+}
+
+<style>
+    body {
+        background-color: #333;
+        color: #fff;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+
+    .centered-box {
+        padding: 20px;
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 8px;
+        box-shadow: 8px 8px 20px rgba(240, 240, 240, 0.3);
+        width: 400px;
+        text-align: center;
+    }
+
+    h4 {
+        text-align: center;
+    }
+
+    .form-floating > .form-control {
+        background-color: #373838;
+    }
+
+
+    .form-floating input,
+    .form-floating label {
+        color: #fff;
+    }
+
+    .form-control {
+        border: 1px solid #000;
+    }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #eb6302;
+            box-shadow: none;
+        }
+
+    .form-floating .text-danger {
+        color: #ff6b6b;
+    }
+
+    /* Stilurile pentru butonul de retrimite confirmare email */
+    #resend-email-submit {
+        background-color: #eb6302;
+        color: white;
+        border: 1px solid #eb6302;
+        outline: 2px solid #eb6302;
+        box-shadow: 0 0 5px #eb6302;
+    }
+
+        #resend-email-submit:focus {
+            background-color: #de4604;
+            outline: 2px solid #de4604;
+            box-shadow: 0 0 5px #de4604;
+        }
+</style>
+
+<div class="centered-box">
+    <form method="post">
+        <div>
+            <h3>@ViewData["Title"]</h3>
+        </div>
+        <h4 style="padding: 15px;">Enter your email.</h4>
+        <hr />
+        <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+        <div class="form-floating mb-3">
+            <input asp-for="Input.Email" class="form-control" aria-required="true" placeholder="name@example.com" style="color: #fff;" />
+            <label asp-for="Input.Email" class="form-label"></label>
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
+        </div>
+        <button id="resend-email-submit" type="submit" class="w-100 btn btn-lg btn-primary">Resend</button>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

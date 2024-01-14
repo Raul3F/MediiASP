@@ -1,0 +1,74 @@
+﻿@page
+@model BarberShop.Pages.Bookings.CreateModel
+
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Booking</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Booking.Status" class="control-label"></label>
+                <input asp-for="Booking.Status" class="form-control" readonly value="Active" />
+                <span asp-validation-for="Booking.Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Booking.BookingTime" class="control-label"></label>
+                <input asp-for="Booking.BookingTime" class="form-control" />
+                <span asp-validation-for="Booking.BookingTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Booking.ShopID" class="control-label"></label>
+                <select asp-for="Booking.ShopID" class="form-control" asp-items="ViewBag.ShopID"></select>
+                <span asp-validation-for="Booking.ShopID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Logged in as</label>
+                <p class="form-control-static">@ViewData["Consumer"]</p>
+            </div>
+            <div class="form-group">
+                <div class="table">
+                    <table>
+                        <tr>
+                            @{
+                                int cnt = 0;
+
+                                foreach (var cat in Model.AssignedCategoryDataList)
+                                {
+                                    if (cnt++ % 3 ==0)
+                                    {
+                                        @:</tr><tr>
+                                    }
+                                    @:<td>
+                                    <input type="checkbox" name="selectedCategories" value="@cat.CategoryID" @(Html.Raw(cat.Assigned ? "checked=\"checked\"" : "")) />
+                                    @cat.CategoryID @: @cat.Name
+                                    @:</td>
+                                }
+                                @:</tr>
+                            }
+                    </table>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

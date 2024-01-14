@@ -1,0 +1,50 @@
+﻿@page
+@model BarberShop.Pages.Consumers.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Consumer</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Consumer.ID" />
+            <div class="form-group">
+                <label asp-for="Consumer.Email" class="control-label"></label>
+                <input asp-for="Consumer.Email" readonly class="form-control" />
+                <span asp-validation-for="Consumer.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Consumer.FName" class="control-label"></label>
+                <input asp-for="Consumer.FName" class="form-control" />
+                <span asp-validation-for="Consumer.FName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Consumer.LName" class="control-label"></label>
+                <input asp-for="Consumer.LName" class="form-control" />
+                <span asp-validation-for="Consumer.LName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Consumer.Phone" class="control-label"></label>
+                <input asp-for="Consumer.Phone" class="form-control" />
+                <span asp-validation-for="Consumer.Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

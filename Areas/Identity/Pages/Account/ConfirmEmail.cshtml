@@ -1,0 +1,39 @@
+﻿@page
+@model ConfirmEmailModel
+@{
+    ViewData["Title"] = "Confirm email";
+}
+
+<style>
+    body {
+        background-color: #333;
+        color: #fff;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    .centered-box {
+        padding: 20px;
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 8px;
+        box-shadow: 8px 8px 20px rgba(240, 240, 240, 0.3);
+        width: 400px;
+        text-align: center;
+    }
+
+    .text-danger {
+        color: #ff6b6b;
+    }
+</style>
+
+<div class="centered-box">
+    <h1>@ViewData["Title"]</h1>
+</div>
+<partial name="_StatusMessage" model="Model.StatusMessage" />

@@ -1,0 +1,118 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+
+<style>
+    body {
+        background-color: #333;
+        color: #fff;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+
+    .centered-box {
+        padding: 20px;
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 8px;
+        box-shadow: 8px 8px 20px rgba(240, 240, 240, 0.3);
+        width: 400px;
+        text-align: center;
+    }
+
+    h2 {
+        text-align: center;
+    }
+
+    .form-floating > .form-control {
+        background-color: #373838;
+    }
+
+    .form-floating input,
+    .form-floating label {
+        color: #fff;
+    }
+
+    .form-control {
+        border: 1px solid #000;
+    }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #eb6302;
+            box-shadow: none;
+        }
+
+    .form-floating .text-danger {
+        color: #ff6b6b;
+    }
+
+    /* Stilurile pentru butonul de înregistrare */
+    #register-submit {
+        background-color: #eb6302;
+        color: white;
+        border: 1px solid #eb6302;
+        outline: 2px solid #eb6302;
+        box-shadow: 0 0 5px #eb6302;
+    }
+
+        #register-submit:focus {
+            background-color: #de4604;
+            outline: 2px solid #de4604;
+            box-shadow: 0 0 5px #de4604;
+        }
+
+    #login-link {
+        color: white;
+        text-underline-offset: unset;
+    }
+</style>
+
+<div class="centered-box">
+    <div>
+        <h1>@ViewData["Title"]</h1>
+    </div>
+    <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+        <h2>Create a new account.</h2>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+        <div class="form-floating mb-3">
+            <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" style="color: #fff;"/>
+            <label asp-for="Input.Email">Email</label>
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
+        </div>
+        <div class="form-floating mb-3">
+            <input asp-for="Input.FName" class="form-control" autocomplete="f-name" aria-required="true" placeholder="First Name" style="color: #fff;" />
+            <label asp-for="Input.FName">First Name</label>
+            <span asp-validation-for="Input.FName" class="text-danger"></span>
+        </div>
+        <div class="form-floating mb-3">
+            <input asp-for="Input.LName" class="form-control" autocomplete="l-name" aria-required="true" placeholder="Last Name" style="color: #fff;" />
+            <label asp-for="Input.LName">Last Name</label>
+            <span asp-validation-for="Input.LName" class="text-danger"></span>
+        </div>
+        <div class="form-floating mb-3">
+            <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" style="color: #fff;" />
+            <label asp-for="Input.Password">Password</label>
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+        </div>
+        <div class="form-floating mb-3">
+            <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" style="color: #fff;" />
+            <label asp-for="Input.ConfirmPassword">Confirm Password</label>
+            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+        </div>
+        <button id="register-submit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+    </form>
+    <p style="padding-top: 15px;">
+        <a id="login-link" asp-page="./Login">Already have an account? Log in here</a>
+    </p>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

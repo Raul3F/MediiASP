@@ -1,0 +1,189 @@
+﻿@page "/"
+@model BarberShop.Pages.Bookings.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+
+<style>
+    .add-icon {
+        right: 0.5em;
+        cursor: pointer;
+    }
+
+    .add-container {
+        position: fixed;
+        top: 4em;
+        right: 0.5em;
+        display: flex;
+        align-items: center;
+        z-index: 999;
+    }
+
+    .card {
+        background-color: #525252;
+        border-radius: 10px;
+        color: darkorange;
+        padding: 1em;
+        margin-bottom: 1em;
+        display: inline-block;
+        box-sizing: border-box;
+        width: calc(33.33% - 20px);
+        height: auto;
+        vertical-align: top;
+    }
+
+    .selected-card {
+        border: 2px solid orange;
+    }
+
+    .body {
+        text-align: center; /* Center the cards horizontally */
+    }
+
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 20px;
+        left: -100px;
+    }
+
+    .dropdown-button {
+        cursor: pointer;
+    }
+</style>
+
+<script>
+
+    function toggleDropdown(cardId) {
+        var dropdownMenu = document.getElementById("myDropdown_" + cardId);
+        var isMenuOpen = dropdownMenu.style.display === "block";
+
+        // Close all dropdowns
+        var allDropdowns = document.querySelectorAll('.dropdown-menu');
+        allDropdowns.forEach(function (dropdown) {
+            dropdown.style.display = "none";
+        });
+
+        // Open the clicked dropdown if it was closed
+        if (!isMenuOpen) {
+            dropdownMenu.style.display = "block";
+        }
+    }
+
+    // Close the dropdowns if the user clicks outside of them
+    document.addEventListener("click", function (event) {
+        var isClickInsideDropdownButton = event.target.closest('.dropdown-button');
+        var isClickInsideDropdownMenu = event.target.closest('.dropdown-menu');
+
+        if (!isClickInsideDropdownButton && !isClickInsideDropdownMenu) {
+            var allDropdowns = document.querySelectorAll('.dropdown-menu');
+            allDropdowns.forEach(function (dropdown) {
+                dropdown.style.display = "none";
+            });
+        }
+    });
+
+    function setCardDimensions() {
+        var screenWidth = window.innerWidth ||
+            document.documentElement.clientWidth ||
+            document.body.clientWidth;
+
+        var cardWidth, cardHeight, padding, margin;
+
+        if (screenWidth < 576) { // For smaller screens (phones)
+            cardWidth = "calc(100% - 20px)";
+            cardHeight = "auto"; // Adjust as needed
+            padding = "0.5em";
+            margin = "0.5em";
+        } else if (screenWidth < 768) { // For medium screens (tablets)
+            cardWidth = "calc(50% - 20px)";
+            cardHeight = "auto"; // Set to auto initially
+            padding = "1em";
+            margin = "1em";
+        } else { // For larger screens
+            cardWidth = "calc(33.33% - 20px)";
+            cardHeight = "auto"; // Set to auto initially
+            padding = "1em";
+            margin = "1em";
+        }
+
+        var cards = document.querySelectorAll('.card');
+        var maxHeight = 0;
+
+        cards.forEach(function (card) {
+            card.style.width = cardWidth;
+            card.style.height = "auto"; // Reset height to auto initially
+            card.style.padding = padding;
+            card.style.marginBottom = margin;
+
+            var cardHeightValue = card.offsetHeight;
+            maxHeight = Math.max(maxHeight, cardHeightValue);
+        });
+
+        // Set the maximum height for all cards
+        cards.forEach(function (card) {
+            card.style.height = maxHeight + "px";
+        });
+    }
+
+    // Set initial card dimensions on page load
+    document.addEventListener("DOMContentLoaded", setCardDimensions);
+
+    // Update card dimensions when the window is resized
+    window.addEventListener("resize", setCardDimensions);
+</script>
+
+<div class="add-container">
+    <div class="add-icon">
+        <a asp-page="Create">&#43;</a>
+    </div>
+</div>
+
+<div class="table">
+    <div class="body">
+        @foreach (var item in Model.BookingD.Bookings)
+        {
+            string selectedRow = (item.ID == Model.BookingID) ? "selected-card" : "";
+            <div class="card @selectedRow">
+                <div class="position-relative">
+                    <div style="font-size: larger; font-weight: bold; padding-bottom: 10px; color: darkorange;">
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </div>
+                    <div style="color: white;">
+                        @Html.DisplayFor(modelItem => item.Consumer)
+                    </div>
+                    <div style="color: white;">
+                        @Html.DisplayFor(modelItem => item.Shop.Location)
+                        <i class="fas fa-map-marker" style="margin-left: 5px; color: white;"></i>
+                    </div>
+                    <div style="color: white;">
+                        <i class="fas fa-clock" style="margin-right: 8px; color: white;"></i>
+                        @Html.DisplayFor(modelItem => item.BookingTime)
+                    </div>
+                    <div style="padding-bottom: 15px; color: white;">
+                        <i class="fas fa-clock" style="margin-right: 8px; color: white;"></i>
+                        @Html.DisplayFor(modelItem => item.Shop.Name)
+                    </div>
+                    <div style="color: white;">
+                        @Html.DisplayFor(modelItem => item.BookingCategories)
+                    </div>
+                    <div class="position-absolute top-0 end-0">
+                        <div class="dropdown">
+                            <div class="dropdown-button" onclick="toggleDropdown('@item.ID')">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </div>
+                            <div class="dropdown-menu" id="myDropdown_@item.ID" style="color: white">
+                                <a class="dropdown-item" asp-page="./Details" asp-route-id="@item.ID">Details</a>
+                                <a class="dropdown-item" asp-page="./Edit" asp-route-id="@item.ID">Edit</a>
+                                <a class="dropdown-item" asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+ </div>

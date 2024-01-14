@@ -1,0 +1,143 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<style>
+    body {
+        background-color: #333;
+        color: #fff;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+
+    .centered-box {
+        padding: 20px;
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 8px;
+        box-shadow: 8px 8px 20px rgba(240, 240, 240, 0.3);
+        width: 400px;
+        text-align: center;
+    }
+
+    .form-floating>.form-control{
+        background-color: #373838;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    .form-floating input,
+    .form-floating label {
+        color: #fff;
+    }
+
+    .form-control {
+        border: 1px solid #000;
+    }
+
+        .form-control:focus {
+            outline: none; /* Remove the focus outline on the input */
+            border-color: #eb6302; /* Change the border color on focus if needed */
+            box-shadow: none; /* Remove any focus box-shadow on the input */
+        }
+
+    .form-floating .text-danger {
+        color: #ff6b6b;
+    }
+
+    .checkbox label {
+        color: #9fa1a1;
+    }
+
+    #login-submit {
+        background-color: #eb6302;
+        color: white;
+        border: 1px solid #eb6302;
+        outline: 2px solid #eb6302; /* Remove the default focus outline */
+        box-shadow: 0 0 5px #eb6302;
+    }
+
+        /* #login-submit:hover {
+            background-color: #de4604;
+            border: 1px solid #de4604;
+        } */
+
+        #login-submit:focus {
+            background-color: #de4604;
+            outline: 2px solid #de4604; /* Remove the default focus outline */
+            box-shadow: 0 0 5px #de4604;
+        }
+
+    #forgot-password,
+    a[asp-page="./Register"],
+    #resend-confirmation {
+        color: #eb6302;
+        text-underline-offset: unset;
+    }
+
+    .checkbox input[type="checkbox"] {
+        border-color: #ccc; /* Set the default border color */
+        background-color: #fff; /* Set the default background color */
+    }
+
+        .checkbox input[type="checkbox"]:checked {
+            background-color: #eb6302; /* Change the background color when checked */
+            border-color: #eb6302; /* Change the border color when checked */
+        }
+
+        .checkbox input[type="checkbox"]:focus {
+            outline: 2px solid #eb6302; /* Set the outline color when focused */
+            box-shadow: 0 0 5px #eb6302; /* Set the box shadow color when focused */
+        }
+
+</style>
+
+@* <h1>@ViewData["Title"]</h1> *@
+<div class="centered-box">
+    <form id="account" method="post">
+        <h2>Log In</h2>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+        <div class="form-floating mb-3">
+            <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" style="color: #fff;" />
+            <label asp-for="Input.Email" class="form-label">Email</label>
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
+        </div>
+        <div class="form-floating mb-3">
+            <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" style="color: #fff;" />
+            <label asp-for="Input.Password" class="form-label">Password</label>
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+        </div>
+        <div class="checkbox mb-3">
+            <label asp-for="Input.RememberMe" class="form-label">
+                <input class="form-check-input" asp-for="Input.RememberMe" />
+                @Html.DisplayNameFor(m => m.Input.RememberMe)
+            </label>
+        </div>
+        <div>
+            <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary" style="background-color: #eb6302;">Log in</button>
+        </div>
+        <div>
+            <p>
+                <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+            </p>
+            <p>
+                <a style="color: white;" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+            </p>
+            <p>
+                <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
+            </p>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
